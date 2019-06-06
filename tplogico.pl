@@ -8,7 +8,7 @@ edadCandidato(catherine,59).
 edadCandidato(heather,50).
 
 esCandidato(frank,rojo).
-esCandidato(claire,rojo.)
+esCandidato(claire,rojo).
 esCandidato(garrett,azul).
 esCandidato(jackie,amarillo).
 esCandidato(linda,azul).
@@ -110,15 +110,26 @@ tieneAlMenos2Partidos(UnaProvincia):-
 	length(CantidadPartidos,Longitud),
 	Longitud>=2.	
 
-quePartidoGanaEnUnaProvincia(UnPartido,OtroPartido,UnaProvincia):-
-	intencionDeVotoEn(UnaProvincia,UnPartido,PrimerPorcentaje),
-	intencionDeVotoEn(UnaProvincia,OtroPartido,SegundoPorcentaje),
+
+quePartidoGanaEnUnaProvincia(UnPartido,OtroPartido,Provincia):-
+	intencionDeVotoEn(Provincia,UnPartido,PrimerPorcentaje),
+	intencionDeVotoEn(Provincia,OtroPartido,SegundoPorcentaje),
 	PrimerPorcentaje>SegundoPorcentaje.	
 
-
-leGanaA(UnCandidato,OtroCandidato,UnaProvincia):- %% arreglar este que no me sale ni con moco
+leGanaA(UnCandidato,OtroCandidato,Provincia):-
 	esCandidato(UnCandidato,UnPartido),
-	sePostula(UnPartido,UnaProvincia),
+	sePostula(UnPartido,Provincia),
 	esCandidato(OtroCandidato,OtroPartido),
-	sePostula(OtroPartido,UnaProvincia),
-	quePartidoGanaEnUnaProvincia(UnPartido,OtroPartido,UnaProvincia).
+	sePostula(OtroPartido,Provincia),
+	quePartidoGanaEnUnaProvincia(UnPartido,OtroPartido,Provincia).
+
+leGanaA(UnCandidato,OtroCandidato,Provincia):-
+	esCandidato(UnCandidato,UnPartido),
+	sePostula(UnPartido,Provincia),
+	esCandidato(OtroCandidato,OtroPartido),
+	not(sePostula(OtroPartido,Provincia)).
+	
+leGanaA(UnCandidato,OtroCandidato,Provincia):-
+	esCandidato(UnCandidato,UnPartido),
+	esCandidato(OtroCandidato,UnPartido),
+	sePostula(UnPartido,Provincia).	
