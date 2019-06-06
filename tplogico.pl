@@ -1,7 +1,6 @@
 edadCandidato(frank,50).
 edadCandidato(claire,52).
 edadCandidato(garrett,64).
-edadCandidato(peter,26).
 edadCandidato(jackie,38).
 edadCandidato(linda,30).
 edadCandidato(catherine,59).
@@ -100,6 +99,7 @@ intencionDeVotoEn(misiones, rojo, 90).
 intencionDeVotoEn(misiones, azul, 0).
 intencionDeVotoEn(misiones, amarillo, 0).
 
+	%Ejercicio 2
 esPicante(UnaProvincia):-
 	tieneAlMenos2Partidos(UnaProvincia),
 	habitantes(UnaProvincia,Cuidadanos),
@@ -111,6 +111,7 @@ tieneAlMenos2Partidos(UnaProvincia):-
 	Longitud>=2.	
 
 
+	%Ejercicio 3
 quePartidoGanaEnUnaProvincia(UnPartido,OtroPartido,Provincia):-
 	intencionDeVotoEn(Provincia,UnPartido,PrimerPorcentaje),
 	intencionDeVotoEn(Provincia,OtroPartido,SegundoPorcentaje),
@@ -128,8 +129,42 @@ leGanaA(UnCandidato,OtroCandidato,Provincia):-
 	sePostula(UnPartido,Provincia),
 	esCandidato(OtroCandidato,OtroPartido),
 	not(sePostula(OtroPartido,Provincia)).
-	
+
 leGanaA(UnCandidato,OtroCandidato,Provincia):-
 	esCandidato(UnCandidato,UnPartido),
 	esCandidato(OtroCandidato,UnPartido),
 	sePostula(UnPartido,Provincia).	
+
+
+	%Ejercicio 4
+esMenor(UnCandidato,OtroCandidato):-
+	edadCandidato(UnCandidato,EdadPrimer),
+	edadCandidato(OtroCandidato,EdadSegundo),
+	EdadPrimer<EdadSegundo.
+sonDistintosCandidatos(UnCandidato,OtroCandidato):-
+		UnCandidato\=OtroCandidato.
+			
+
+esElMenorDeSuPartido(UnCandidato):-
+	esCandidato(UnCandidato,UnPartido),
+	forall((esCandidato(OtroCandidato,UnPartido),sonDistintosCandidatos(UnCandidato,OtroCandidato)),esMenor(UnCandidato,OtroCandidato)).
+
+
+ganaEnDondeSePostula(UnCandidato):-
+	esCandidato(UnCandidato,UnPartido),
+	forall(sePostula(UnPartido,Provincia),ganaEnXProvincia(UnCandidato,Provincia)).
+
+
+ganaEnXProvincia(UnCandidato,Provincia):-
+	esCandidato(UnCandidato,UnPartido),
+	sePostula(UnPartido,Provincia),
+	forall(esCandidato(OtroCandidato,_),leGanaA(UnCandidato,OtroCandidato,Provincia)).
+
+
+
+elGranCandidato(UnCandidato):-
+	esElMenorDeSuPartido(UnCandidato),
+	ganaEnDondeSePostula(UnCandidato).
+
+
+
