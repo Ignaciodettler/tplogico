@@ -20,7 +20,7 @@ sePostula(azul,buenosAires).
 sePostula(azul,chaco).
 sePostula(azul,tierraDelFuego).
 sePostula(azul,sanLuis).
-sePostula(azul,neuquen).
+sePostula(azul,nuequen).
 sePostula(rojo,buenosAires).
 sePostula(rojo,santaFe).
 sePostula(rojo,cordoba).
@@ -141,29 +141,34 @@ esMenor(UnCandidato,OtroCandidato):-
 	edadCandidato(UnCandidato,EdadPrimer),
 	edadCandidato(OtroCandidato,EdadSegundo),
 	EdadPrimer<EdadSegundo.
-	
 sonDistintosCandidatos(UnCandidato,OtroCandidato):-
 		UnCandidato\=OtroCandidato.
 			
+
 esElMenorDeSuPartido(UnCandidato):-
 	esCandidato(UnCandidato,UnPartido),
 	forall((esCandidato(OtroCandidato,UnPartido),sonDistintosCandidatos(UnCandidato,OtroCandidato)),esMenor(UnCandidato,OtroCandidato)).
 
+
 ganaEnDondeSePostula(UnCandidato):-
 	esCandidato(UnCandidato,UnPartido),
 	forall(sePostula(UnPartido,Provincia),ganaEnXProvincia(UnCandidato,Provincia)).
+
 
 ganaEnXProvincia(UnCandidato,Provincia):-
 	esCandidato(UnCandidato,UnPartido),
 	sePostula(UnPartido,Provincia),
 	forall(esCandidato(OtroCandidato,_),leGanaA(UnCandidato,OtroCandidato,Provincia)).
 
+
+
 elGranCandidato(UnCandidato):-
 	esElMenorDeSuPartido(UnCandidato),
 	ganaEnDondeSePostula(UnCandidato).
 
 
-	%Ejercicio 5
+
+%Ejercicio 5
 
 ajusteConsultora(UnPartido,UnaProvincia,VerdaderoPorcentajeDeVotos):-
 	sePostula(UnPartido,UnaProvincia),
@@ -179,3 +184,22 @@ ajusteConsultora(UnPartido,UnaProvincia,VerdaderoPorcentajeDeVotos):-
 	quePartidoGanaEnUnaProvincia(_,UnPartido,UnaProvincia),
 	intencionDeVotoEn(UnaProvincia,UnPartido,Puntaje),
 	VerdaderoPorcentajeDeVotos is Puntaje + 5.
+
+
+
+%Ejercicio 6
+
+promete(azul,construir(hospitales,1000)).
+promete(azul,construir(jardines,100)).
+promete(azul,construir(escuelas,5)).
+promete(amarillo,construir(hospitales,100)).
+promete(amarillo,construir(universidad,1)).
+promete(amarillo,construir(comisarias,200)).
+promete(rojo,nuevosPuestosDeTrabajo(800000)).
+promete(amarillo,nuevosPuestosDeTrabajo(10000)).
+promete(azul,inflacion(2,4)).
+promete(amarillo,inflacion(1,15)).
+promete(rojo,inflacion(10,30)).
+
+
+%Ejercicio 7 
