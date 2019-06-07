@@ -20,7 +20,7 @@ sePostula(azul,buenosAires).
 sePostula(azul,chaco).
 sePostula(azul,tierraDelFuego).
 sePostula(azul,sanLuis).
-sePostula(azul,nuequen).
+sePostula(azul,neuquen).
 sePostula(rojo,buenosAires).
 sePostula(rojo,santaFe).
 sePostula(rojo,cordoba).
@@ -141,30 +141,40 @@ esMenor(UnCandidato,OtroCandidato):-
 	edadCandidato(UnCandidato,EdadPrimer),
 	edadCandidato(OtroCandidato,EdadSegundo),
 	EdadPrimer<EdadSegundo.
+	
 sonDistintosCandidatos(UnCandidato,OtroCandidato):-
 		UnCandidato\=OtroCandidato.
 			
-
 esElMenorDeSuPartido(UnCandidato):-
 	esCandidato(UnCandidato,UnPartido),
 	forall((esCandidato(OtroCandidato,UnPartido),sonDistintosCandidatos(UnCandidato,OtroCandidato)),esMenor(UnCandidato,OtroCandidato)).
 
-
 ganaEnDondeSePostula(UnCandidato):-
 	esCandidato(UnCandidato,UnPartido),
 	forall(sePostula(UnPartido,Provincia),ganaEnXProvincia(UnCandidato,Provincia)).
-
 
 ganaEnXProvincia(UnCandidato,Provincia):-
 	esCandidato(UnCandidato,UnPartido),
 	sePostula(UnPartido,Provincia),
 	forall(esCandidato(OtroCandidato,_),leGanaA(UnCandidato,OtroCandidato,Provincia)).
 
-
-
 elGranCandidato(UnCandidato):-
 	esElMenorDeSuPartido(UnCandidato),
 	ganaEnDondeSePostula(UnCandidato).
 
 
+%Ejercicio 5 
+
+ajusteConsultora(UnPartido,UnaProvincia,VerdaderoPorcentajeDeVotos):-
+	sePostula(UnPartido,UnaProvincia),
+	quePartidoGanaEnUnaProvincia(UnPartido,_,UnaProvincia),
+	intencionDeVotoEn(UnaProvincia,UnPartido,Puntaje),
+	VerdaderoPorcentajeDeVotos is Puntaje - 20.
+
+	
+ajusteConsultora(UnPartido,UnaProvincia,VerdaderoPorcentajeDeVotos):-
+	sePostula(UnPartido,UnaProvincia),
+	quePartidoGanaEnUnaProvincia(_,UnPartido,UnaProvincia),
+	intencionDeVotoEn(UnaProvincia,UnPartido,Puntaje),
+	VerdaderoPorcentajeDeVotos is Puntaje + 5.
 
