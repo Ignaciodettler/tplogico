@@ -178,3 +178,25 @@ ajusteConsultora(UnPartido,UnaProvincia,VerdaderoPorcentajeDeVotos):-
 	intencionDeVotoEn(UnaProvincia,UnPartido,Puntaje),
 	VerdaderoPorcentajeDeVotos is Puntaje + 5.
 
+	%Ejercicio 5
+
+ajusteConsultora(Partido,Provincia,nuevoPorcentaje):-
+	ganaEnProvincia (Partido,Provincia),
+	%RESTAR 20%
+
+ajusteConsultora(Partido,Provincia,nuevoPorcentaje):-
+	not (ganaEnProvincia (Partido,Provincia)),
+	%SUMAR 5%
+
+ganaEnProvincia(Partido,Provincia) :-
+	forall(sePostula(OtroPartido),ganaPartido(Partido,OtroPartido,Provincia)).
+
+ganaPartido(Partido,OtroPartido,Provincia):-
+
+	intencionDeVotoEn(Provincia,Partido,UnPortcentaje),
+	intencionDeVotoEn(Provincia,OtroPartido,OtroPorcentaje),
+	UnPortcentaje > OtroPorcentaje.
+
+ganaPartido(Partido,OtroPartido,Provincia):-
+	sePostula(Partido,Provincia),
+	not(sePostula(OtroPartido,Provincia)).
