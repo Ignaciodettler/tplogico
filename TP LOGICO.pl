@@ -234,13 +234,10 @@ promedio(UnValor, OtroValor, Promedio) :-
 
 % Ejercicio 8
 promedioDeCrecimiento(Partido, SumatoriaDeVariaciones) :-
-    esPartido(Partido),
+    esCandidato(_, Partido)
     findall(VariacionEnIntencionDeVotos,obtenerCrecimiento(Partido,_,VariacionEnIntencionDeVotos),Variaciones),
     sumlist(Variaciones, SumatoriaDeVariaciones).
 
 obtenerCrecimiento(Partido, Promesa, VariacionEnIntencionDeVotos) :-
     promete(Partido, Promesa),
     influenciaDePromesas(Promesa, VariacionEnIntencionDeVotos).
-
-esPartido(Partido) :-
-    candidato(Partido, _, _).
