@@ -211,11 +211,11 @@ variacionSegunObra(edilicio(hospital,_), 2).
 variacionSegunObra(edilicio(comisaria,200), 2). 
     
 variacionSegunObra(edilicio(Obra, Cantidad), Impacto) :-
-jardinOEscuela(Obra),
-Impacto is Cantidad / 10.
+	esJardinOEscuela(Obra),
+	Impacto is Cantidad / 10.
 
-jardinOEscuela(escuela).
-jardinOEscuela(jardin).
+esJardinOEscuela(escuela).
+esJardinOEscuela(jardin).
 
 variacionSegunObra(edilicio(Construccion, _), -1) :-
    construccionInnecesaria(Construccion).
