@@ -218,21 +218,21 @@ esJardinOEscuela(escuela).
 esJardinOEscuela(jardin).
 
 variacionSegunObra(edilicio(Construccion, _), -1) :-
-   construccionInnecesaria(Construccion).
+	construccionInnecesaria(Construccion).
 
 construccionInnecesaria(Construccion) :-
-    not(member(Construccion, [escuela, hospital, comisaria, jardin, universidad])).
+	not(member(Construccion, [escuela, hospital, comisaria, jardin, universidad])).
 
 promedio(UnValor, OtroValor, Promedio) :-
-    Promedio is (UnValor + OtroValor) / 2.
+	Promedio is (UnValor + OtroValor) / 2.
 
 
 % Ejercicio 8
 promedioDeCrecimiento(Partido, SumatoriaDeVariaciones) :-
-    esCandidato(_, Partido)
-    findall(VariacionEnIntencionDeVotos,obtenerCrecimiento(Partido,_,VariacionEnIntencionDeVotos),Variaciones),
-    sumlist(Variaciones, SumatoriaDeVariaciones).
+	esCandidato(_, Partido)
+	findall(VariacionEnIntencionDeVotos,obtenerCrecimiento(Partido,_,VariacionEnIntencionDeVotos),Variaciones),
+	sumlist(Variaciones, SumatoriaDeVariaciones).
 
 obtenerCrecimiento(Partido, Promesa, VariacionEnIntencionDeVotos) :-
-    promete(Partido, Promesa),
-    influenciaDePromesas(Promesa, VariacionEnIntencionDeVotos).
+	promete(Partido, Promesa),
+	influenciaDePromesas(Promesa, VariacionEnIntencionDeVotos).
