@@ -155,7 +155,7 @@ esMenor(UnCandidato, OtroCandidato):-
 	EdadPrimer < EdadSegundo.
 
 ganaEnDondeSePostula(UnPartido):-
-	forall(sePostula(UnPartido, Provincia), ganaEnXProvincia(UnPartido, Provincia)).
+	forall(sePostula(UnPartido, Provincia),ganaEnXProvincia(UnPartido, Provincia)).
 
 ganaEnXProvincia(UnPartido, Provincia):-
 	esCandidato(UnCandidato, UnPartido),
@@ -170,11 +170,11 @@ ajusteConsultora(UnPartido, UnaProvincia, VerdaderoPorcentajeDeVotos):-
 		porcentajeCambiado(Porcentaje, VerdaderoPorcentajeDeVotos, UnPartido, UnaProvincia).
 
 porcentajeCambiado(Porcentaje,VerdaderoPorcentajeDeVotos,UnPartido,UnaProvincia):-
-	ganaElPrimerPartidoEnUnaProvincia(UnPartido, _, UnaProvincia),
+	ganaElPrimerPartidoEnUnaProvincia(UnPartido,_,UnaProvincia),
 	VerdaderoPorcentajeDeVotos is Porcentaje - 20.
 
 porcentajeCambiado(Porcentaje,VerdaderoPorcentajeDeVotos,UnPartido,UnaProvincia):-
-	not(ganaElPrimerPartidoEnUnaProvincia(UnPartido, _, UnaProvincia)),
+	not(ganaElPrimerPartidoEnUnaProvincia(UnPartido,_,UnaProvincia)),
 	VerdaderoPorcentajeDeVotos is Porcentaje + 5.
 
 
@@ -199,30 +199,23 @@ modificacionSegunPromesa(inflacion(CotaInferior,CotaSuperior), VariacionVotos) :
 modificacionSegunPromesa(nuevosPuestosDeTrabajo(Cantidad), 3) :- 
     Cantidad > 50000.
 
-modificacionSegunPromesa(nuevosPuestosDeTrabajo(Cantidad), 0) :- 
-    Cantidad =< 50000. 
-
 modificacionSegunPromesa(construir(Construcciones), VariacionVotos) :- 
     findall(Impacto, impacto(Construcciones, _, Impacto), Impactos),
     sumlist(Impactos, VariacionVotos).
     
 impacto(Construcciones, Construccion, Impacto) :-
     member(Construccion, Construcciones),
-    impactoDelEdilicio(Construccion, Impacto).
+    variacionSegunObra(Construccion, Impacto).
 
-variacionSegunObra(edilicio(hospital, _), 2).   
-variacionSegunObra(edilicio(comisaria, 200), 2). 
+variacionSegunObra(edilicio(hospital,_), 2).   
+variacionSegunObra(edilicio(comisaria,200), 2). 
     
-variacionSegunObra(edilicio(jardin, Cantidad), Impacto) :-
-    dividirEntreDiez(Impacto).
-    
-variacionSegunObra(edilicio(escuela, Cantidad), Impacto) :-
-    dividirEntreDiez(Impacto).
+variacionSegunObra(edilicio(Obra, Cantidad), Impacto) :-
+jardinOEscuela(Obra),
+Impacto is Cantidad / 10.
 
-dividirEntreDiez(Numero):-
-	Numero is Numero / 10.
-
-variacionSegunObra(edilicio(universidad, _), 0).
+jardinOEscuela(escuela).
+jardinOEscuela(jardin).
 
 variacionSegunObra(edilicio(Construccion, _), -1) :-
    construccionInnecesaria(Construccion).
@@ -237,7 +230,7 @@ promedio(UnValor, OtroValor, Promedio) :-
 % Ejercicio 8
 promedioDeCrecimiento(Partido, SumatoriaDeVariaciones) :-
     esCandidato(_, Partido)
-    findall(VariacionEnIntencionDeVotos, obtenerCrecimiento(Partido, _, VariacionEnIntencionDeVotos), Variaciones),
+    findall(VariacionEnIntencionDeVotos,obtenerCrecimiento(Partido,_,VariacionEnIntencionDeVotos),Variaciones),
     sumlist(Variaciones, SumatoriaDeVariaciones).
 
 obtenerCrecimiento(Partido, Promesa, VariacionEnIntencionDeVotos) :-
